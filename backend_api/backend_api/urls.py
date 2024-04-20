@@ -21,6 +21,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('users/', include('users.urls')),   
+    path('store/', include('store.urls')),   
 
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),

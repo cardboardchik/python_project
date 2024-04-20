@@ -1,27 +1,24 @@
 from django.shortcuts import render
-
-from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets
-from rest_framework import generics, viewsets, serializers
-from .serializers import GroupSerializer, UserSerializer
-from drf_spectacular.utils import extend_schema, inline_serializer
-from rest_framework import generics
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+from .forms import RegisterForm
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all().order_by('name')
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class RegisterView(FormView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy("profile")
 
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+
+class CustomLoginView(LoginView):
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy("home")
+    
     
