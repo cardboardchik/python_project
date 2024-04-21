@@ -1,24 +1,19 @@
-from django.shortcuts import render
-from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
-from .forms import RegisterForm
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import User
+from .serializers import UserProfileSerializer
+from drf_spectacular.utils import extend_schema
 
 
-class RegisterView(FormView):
-    form_class = RegisterForm
-    template_name = 'registration/register.html'
-    success_url = reverse_lazy("profile")
+class UserProfileView(APIView):
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+    permission_classes = [IsAuthenticated]
     
-
-class CustomLoginView(LoginView):
-    redirect_authenticated_user = True
-
-    def get_success_url(self):
-        return reverse_lazy("home")
-    
-    
+    @extend_schema(responses=UserProfileSerializer)
+    def get(self, request):
+        """
+        Get User Profile
+        """
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)
