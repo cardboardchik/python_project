@@ -5,9 +5,12 @@ from users.models import User
 # Create your models here.
 
 class Category(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     description = models.TextField(max_length=500)
-    img_links = models.CharField(max_length=500)
+    img_link = models.CharField(max_length=500)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Item(models.Model):
