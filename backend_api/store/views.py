@@ -8,7 +8,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
-
+import requests
+from bs4 import BeautifulSoup
 
 # class CategoriesCreateApiView(generics.CreateAPIView):
 #     serializer_class = CategoriesSerializer
