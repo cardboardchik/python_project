@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/v1/users/', include('users.urls'), name="user"),   
     path('api/v1/store/', include('store.urls'), name="store"),   
     path('api/v1/cart/', include('cart.urls'), name="cart"),   
+    path('api/v1/chatgpt-assistant/', include('chatgpt_assistant.urls'), name="chatgpt-assistant"),   
 
     path('api/v1/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),

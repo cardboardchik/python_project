@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'store',
     'cart',
+    'chatgpt_assistant',
 ]
 
 MIDDLEWARE = [
