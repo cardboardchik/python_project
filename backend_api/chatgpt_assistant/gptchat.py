@@ -12,7 +12,6 @@ def request_response(user_prompt):
             prompt=user_prompt,
             max_tokens=1000,
             temperature=0.5,
-            stop=["\n\n"],
             timeout=15,    
         )
         if response and response.choices: 
