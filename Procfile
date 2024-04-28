@@ -1,1 +1,0 @@
-web: gunicorn backend_api.backend_api.wsgi
