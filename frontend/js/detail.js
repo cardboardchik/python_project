@@ -9,11 +9,13 @@ $(function() {
             console.log(res)
             const product_img = document.querySelector("#product_img")
             const reviews_view = document.querySelector("#reviews_view")
+            const details = document.querySelector("#characteristics")
 
             let img = res["img_links"]
             let name = res["name"]
             let price = res["price"]
             let reviews = res["reviews"]
+            let characteristics = res["characteristics"]
 
             product_img.innerHTML += 
             `<div class="carousel-item active">
@@ -39,6 +41,15 @@ $(function() {
                     </div>
                 </div>`
             }
+            
+            for (const [key, value] of Object.entries(characteristics)) {
+                details.innerHTML += 
+                `<tr>
+                    <td>${key}</td>
+                    <td>${value}</td>
+                </tr>`
+              }
+
         }
     });
     let data = {
