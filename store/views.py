@@ -1,13 +1,13 @@
 from .models import Category, Item, Reviews
 from .serializers import CategoriesSerializer, ItemSerializer, ReviewSerializer
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, serializers
 from rest_framework.views import APIView
 
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
-from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter, inline_serializer
 import requests
 from bs4 import BeautifulSoup
 
@@ -71,8 +71,26 @@ class ItemApiView(APIView):
             return Response({"error: the item doesn't exist"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ReviewApiView(APIView):
 
+    permission_classes = [IsAuthenticated]
 
+    @extend_schema(request=inline_serializer(
+        name="Reviews",
+        fields={
+            "rating": serializers.IntegerField(),
+            "text": serializers.CharField(),
+            "item": serializers.IntegerField(),
+        },
+    ), responses=ReviewSerializer)
+    def post(self, request):
+        
+        review = Reviews.objects.filter(user=request.user.id, item=request.data['item'])
+        if review:
+            return Response({"error": "you cannot leave more than one review for this product"}, status=status.HTTP_400_BAD_REQUEST)
+        review = Reviews.objects.create(rating=request.data['rating'], text=request.data['text'], item_id=request.data['item'], user_id=request.user.id)
+        return Response(ReviewSerializer(review).data)
+    
 
     
     

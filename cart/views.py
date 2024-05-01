@@ -15,7 +15,7 @@ class CartItemAPIView(viewsets.ViewSet):
    
     permission_classes = [IsAuthenticated]
     @extend_schema(request=inline_serializer(
-        name="InlineFormSerializer",
+        name="CartItem",
         fields={
             "quantity": serializers.IntegerField(),
             "is_active": serializers.BooleanField(),
@@ -65,12 +65,11 @@ class CartItemAPIView(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     @extend_schema(request=inline_serializer(
-        name="InlineFormSerializer",
+        name="CartItem_patch",
         fields={
             "quantity": serializers.IntegerField(),
         },
     ), responses=CartItemSerializer)
-
     def partial_update(self, request, pk=None):
         """
         PATCH /cart/items/{id}/: <br>
