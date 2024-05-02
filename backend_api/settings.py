@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(r2$0d4wsj-6n@f2g)y+*nq4p#e3pc#^5-3&=p7gyc#eiw!**j
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = ['https://pythonproject-production-009d.up.railway.app']
 
 # Application definition
 
@@ -151,6 +151,6 @@ SPECTACULAR_SETTINGS = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
-CSRF_TRUSTED_ORIGINS = ['*']
+
+
+
