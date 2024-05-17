@@ -3,7 +3,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from .models import CartItem, Cart
-from .serializers import  CartItemSerializer, CartSerializer
+from store.models import Item
+from .serializers import  CartItemSerializer, CartSerializer, CartListSerializer
 from django.shortcuts import get_object_or_404
 from django.core import serializers as ser
 from django.db.models import Count
@@ -118,8 +119,10 @@ class CartAPIView(viewsets.ViewSet):
         items = []
         for i in queryset:
             if i.user.id == request.user.id:
+                item = Item.objects.get(id=i.item.id)
+                i.item_descr = {"name": item.name, "price": item.price, "img_link": item.img_links}
                 items.append(i)
-        serializer = CartItemSerializer(items, many=True)
+        serializer = CartListSerializer(items, many=True)
         return Response(serializer.data)
     
     def destroy(self, request):

@@ -116,39 +116,28 @@ $(function() {
         if (window.localStorage.getItem("auth_token") == null){
             window.location.replace("login.html")
         }
-        
+        let quantity = parseInt($("#quantity").val())
         let data_cart = {
-            "quantity": 1,
-            "is_active": true,
+            "quantity": quantity,
+            "is_active": "True",
             "item": item_id
         }
         
-        // $.ajax({
-        //     url: "https://pythonproject-production-009d.up.railway.app/api/v1/cart/items/",
-        //     type: 'POST',
-        //     headers: {'Authorization': window.localStorage.getItem("auth_token")},
-        //     data: data_cart,
-        //     dataType: 'json',
-        //     crossDomain: true,
-        //     success: function(res) {
-        //         alert("Ok")
-        //     },
-        //     error: function(res){
-        //         console.log(res)
-        //         alert(res.responseJSON["error"])
-        //     }
-        // });
         $.ajax({
-            type: "POST",
-            beforeSend: function(request) {
-              request.setRequestHeader("Authorization", window.localStorage.getItem("auth_token"));
-            },
             url: "https://pythonproject-production-009d.up.railway.app/api/v1/cart/items/",
+            type: 'POST',
+            headers: {'Authorization': window.localStorage.getItem("auth_token")},
             data: data_cart,
-            success: function(msg) {
-              alert("Ok");
+            dataType: 'json',
+            success: function(res) {
+                alert("Ok")
+            },
+            error: function(res){
+                console.log(res)
+                alert(res.responseJSON["error"])
             }
-          });
+        });
+
         
     });
 

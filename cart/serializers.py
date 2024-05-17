@@ -6,6 +6,12 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = "__all__"
 
+class CartListSerializer(serializers.ModelSerializer):
+    item_descr = serializers.DictField()
+    class Meta:
+        model = CartItem
+        fields = ['id', 'quantity', 'is_active', 'user', 'item', 'cart', 'item_descr']
+
 class CartSerializer(serializers.ModelSerializer):
     cart_items = CartItemSerializer(many=True, read_only=True, source='cartitem_set')
 
