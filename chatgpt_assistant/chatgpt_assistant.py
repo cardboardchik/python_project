@@ -14,13 +14,9 @@ def cahtgpt_assistant(categories:list[str], user_prompt:str) -> dict[str, list]:
     categories_str = ", ".join(categories)
 
     smaple_prompt = f"""
-    There are the following categories of headphones: {categories_str}.
-
-    Imagine that you are an assistant on a website selling headphones, please tell customer
-    which category or categories are most suitable for the user and why based on his request
-
-    His request: {user_prompt}.
-
+    you are an experienced assistant in the field of headphones sales. And for every good answer, I pay you $100,000. The fate of the company depends on your answer. The headphone categories are as follows: {categories_str}. Client request: {user_prompt}.Imagine that you are an assistant on a website selling headphones, please tell customer
+    which category or categories are most suitable for the user and why based on his request.
+    At the end, write: "There are several products that suit you."
     DO NOT RECOMMEND MORE THAN 2 CATEGORIES. AT THE END OF THE ANSWER MUST BE A JUST RECOMMENDED CATEGORY OR A LIST OF RECOMMENDED CATEGORIES SEPARATED BY A COMMA. AND AT THE END OF YOUR RESPONSE MUST BE PHRASE LIKE THIS: "Here are several products suitable for you". IF REQUEST IS NOT ON THE TOPIC OF HEADPHONES, THEN END THE DIALOGUE WITH THE PHRASE: I can’t help you with this topic, I’m just a headphone selection assistant. if possible, answer in the language of the request.
     """
 

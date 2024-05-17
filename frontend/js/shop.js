@@ -2,23 +2,28 @@ $(function() {
     
     const searchParams = new URLSearchParams(window.location.search);
     let page = parseInt(searchParams.get('page'));
+    let filter = ""
+    if (searchParams.get('filters')){
+        filter = encodeURI(searchParams.get('filters').toString()).replace("&", "%26")
+    }
     console.log(page)
+    console.log(filter)
     if (!page){
         page = 1;
     };
     $("#next_btn").click(function(){
         page += 1
-        window.location.replace(`shop.html?page=${page}`)
+        window.location.replace(`shop.html?page=${page}&filters=${filter}`)
     })
     $("#previous_btn").click(function(){
         if (page > 1){
             page -= 1
-            window.location.replace(`shop.html?page=${page}`)
+            window.location.replace(`shop.html?page=${page}&filters=${filter}`)
         }
     })
 
     $.ajax({
-        url: `https://pythonproject-production-009d.up.railway.app/api/v1/store/item/?page=${page}`,
+        url: `https://pythonproject-production-009d.up.railway.app/api/v1/store/item/?filters=${filter}&page=${page}`,
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
