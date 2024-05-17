@@ -58,6 +58,10 @@ $(function() {
         "item": item_id,
     }
     $("#review_button").click(function(){
+        if (window.localStorage.getItem("auth_token") == null){
+            window.location.replace("login.html")
+        }
+
         data["rating"] = $("#rating_form").val();
         data["text"] = $("#message").val();
         if (data["rating"] == ""){
@@ -66,7 +70,7 @@ $(function() {
         $.ajax({
             url: "https://pythonproject-production-009d.up.railway.app/api/v1/store/reviews/",
             type: 'POST',
-            headers: {'Authorization': 'Token bd3779a81b110537cd8cf136e8e1c549ca741afc'},
+            headers: {'Authorization': window.localStorage.getItem("auth_token")},
             data: data,
             dataType: 'json',
             success: function(res) {
@@ -107,6 +111,47 @@ $(function() {
             }
         });
     });
+
+    $("#add_to_cart").click(function(){
+        if (window.localStorage.getItem("auth_token") == null){
+            window.location.replace("login.html")
+        }
+        
+        let data_cart = {
+            "quantity": 1,
+            "is_active": true,
+            "item": item_id
+        }
+        
+        // $.ajax({
+        //     url: "https://pythonproject-production-009d.up.railway.app/api/v1/cart/items/",
+        //     type: 'POST',
+        //     headers: {'Authorization': window.localStorage.getItem("auth_token")},
+        //     data: data_cart,
+        //     dataType: 'json',
+        //     crossDomain: true,
+        //     success: function(res) {
+        //         alert("Ok")
+        //     },
+        //     error: function(res){
+        //         console.log(res)
+        //         alert(res.responseJSON["error"])
+        //     }
+        // });
+        $.ajax({
+            type: "POST",
+            beforeSend: function(request) {
+              request.setRequestHeader("Authorization", window.localStorage.getItem("auth_token"));
+            },
+            url: "https://pythonproject-production-009d.up.railway.app/api/v1/cart/items/",
+            data: data_cart,
+            success: function(msg) {
+              alert("Ok");
+            }
+          });
+        
+    });
+
     
 
 });

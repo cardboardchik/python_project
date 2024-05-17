@@ -57,11 +57,13 @@ class CartItemAPIView(viewsets.ViewSet):
         if int(request.data['quantity']) <= 0:
             return Response({'error: quantity must be greater than 0'}, status=status.HTTP_400_BAD_REQUEST)
         
-        serializer = CartItemSerializer(data=request.data | {'user': request.user.id, 'cart': cart.id})
-        
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        # serializer = CartItemSerializer(data=request.data | {'user': request.user.id, 'cart': cart.id})
 
+        
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
+        cart_item = CartItem.objects.create(user=request.user, cart=cart, item_id=request.data['item'], quantity=request.data['quantity'], is_active=request.data['is_active'])
+        serializer = CartItemSerializer(cart_item)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     @extend_schema(request=inline_serializer(

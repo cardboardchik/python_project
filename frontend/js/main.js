@@ -99,6 +99,16 @@
         }
         button.parent().parent().find('input').val(newVal);
     });
+
+    // auth
+    if (window.localStorage.getItem("auth_token") == null) {
+        $("#login_btn").removeClass("d-none")
+        $("#profile_btn").addClass("d-none")
+    }
+    else {
+        $("#login_btn").addClass("d-none")
+        $("#profile_btn").removeClass("d-none")
+    }
     
 })(jQuery);
 
