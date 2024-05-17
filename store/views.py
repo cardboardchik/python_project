@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter, inline_serializer
 import requests
@@ -21,16 +22,16 @@ from bs4 import BeautifulSoup
 #         serializer.is_valid(raise_exception=True)
 #         self.perform_create(serializer)
 #         return Response(serializer.data)
-    
+
 class CategoriesListApiView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
     permission_classes = (AllowAny,)
 
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = CategoriesSerializer(queryset, many=True)
-        return Response(serializer.data)
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = CategoriesSerializer(queryset, many=True)
+    #     return Response(serializer.data)
     
 @extend_schema_view(get=extend_schema(
         parameters=[ 
@@ -42,6 +43,7 @@ class ItemListApiView(generics.ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = (AllowAny, )
+    
 
     def get_queryset(self):
         if self.request.query_params.get('filters'):
@@ -51,10 +53,10 @@ class ItemListApiView(generics.ListAPIView):
             queryset = Item.objects.all()
         return queryset
     
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = ItemSerializer(queryset, many=True)
-        return Response(serializer.data)
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = ItemSerializer(queryset, many=True)
+    #     return Response(serializer.data)
     
 class ItemApiView(APIView):
     permission_classes = [AllowAny]
