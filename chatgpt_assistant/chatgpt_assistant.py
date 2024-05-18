@@ -25,7 +25,7 @@ def cahtgpt_assistant(categories:list[str], user_prompt:str) -> dict[str, list]:
             model="gpt-3.5-turbo-instruct",
             prompt=smaple_prompt,
             max_tokens=1000,
-            temperature=0.5,
+            temperature=0.2,
             timeout=15,    
         )
         if response and response.choices: 
